@@ -73,6 +73,7 @@ sudo cat << EOF > /var/www/html/wp-content/themes/custom/style.css
 EOF
 
 sudo mkdir /var/www/source
+sudo mkdir /var/www/source/components
 sudo mkdir /var/www/source/css
 sudo mkdir /var/www/source/fonts
 sudo mkdir /var/www/source/images

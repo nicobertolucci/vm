@@ -8,11 +8,14 @@
     },
     "config": {
         "path": {
-            "source": "path_source_here",
-            "target": "path_target_here"
+            "source": "source/",
+            "target": "html/wp-content/themes/custom/assets/"
         }
     },
     "dependencies": {
+        "copyfiles": "^2.0",
+        "node-sass": "^4.8",
+        "postcss-cli": "^5.0",
         "rimraf": "^2.6"
     },
     "description": "Theme builder",
@@ -25,11 +28,15 @@
         "url": "https://github.com/estebanspina/vm.git"
     },
     "scripts": {
-        "clean:all": "npm run clean:css && npm run clean:fonts && npm run clean:images && npm run clean:js",
-        "clean:css": "rimraf $npm_package_config_path_target/css/*",
-        "clean:fonts": "rimraf $npm_package_config_path_target/fonts/*",
-        "clean:images": "rimraf $npm_package_config_path_target/images/*",
-        "clean:js": "rimraf $npm_package_config_path_target/js/*"
+        "autoprefixer:css": "postcss -u autoprefixer -r $npm_package_config_path_target/css/theme.css",
+        "copyfiles:css-components": "copyfiles -f $npm_package_config_path_source/components/*.css $npm_package_config_path_target/css",
+        "copyfiles:fonts": "copyfiles -f $npm_package_config_path_source/fonts/* $npm_package_config_path_target/fonts",
+        "copyfiles:js-components": "copyfiles -f $npm_package_config_path_source/components/*.js $npm_package_config_path_target/js",
+        "rimraf:css": "rimraf $npm_package_config_path_target/css/*",
+        "rimraf:fonts": "rimraf $npm_package_config_path_target/fonts/*",
+        "rimraf:images": "rimraf $npm_package_config_path_target/images/*",
+        "rimraf:js": "rimraf $npm_package_config_path_target/js/*",
+        "sass:css": "node-sass --output-style compressed -o $npm_package_config_path_target/css $npm_package_config_path_source/css"
     },
     "version": "1.0.0"
 }

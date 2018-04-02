@@ -39,6 +39,10 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "shell", path: "./provision/vm.sh", :args => [DB_NAME, DB_PASSWORD]
 
+    if "drupal" === custom
+        config.vm.provision "shell", path: "./provision/drupal.sh", :args => [DB_NAME, DB_PASSWORD]
+    end
+
     if "wordpress" === custom
         config.vm.provision "shell", path: "./provision/wordpress.sh", :args => [DB_NAME, DB_PASSWORD]
     end
