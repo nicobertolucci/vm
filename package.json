@@ -8,8 +8,8 @@
     },
     "config": {
         "path": {
-            "source": "source",
-            "target": "html/wp-content/themes/custom/assets"
+            "source": "path_source_here",
+            "target": "path_target_here"
         }
     },
     "dependencies": {

@@ -24,8 +24,8 @@ sudo perl -pi -e "s/database_name_here/$1/g" /var/www/html/wp-config.php
 sudo perl -pi -e "s/username_here/root/g" /var/www/html/wp-config.php
 sudo perl -pi -e "s/password_here/$2/g" /var/www/html/wp-config.php
 
-sudo perl -pi -e "s/path_source_here/source/g" /var/www/package.json
-sudo perl -pi -e "s/path_target_here/html\\/wp-content\\/themes\\/custom\\/assets/g" /var/www/package.json
+sudo perl -pi -e "s/path_source_here/source\\//g" /var/www/package.json
+sudo perl -pi -e "s/path_target_here/html\\/wp-content\\/themes\\/custom\\/assets\\//g" /var/www/package.json
 
 sudo perl -i -pe'
   BEGIN {
