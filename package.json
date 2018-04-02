@@ -8,12 +8,12 @@
     },
     "config": {
         "path": {
-            "source": "path_source_here",
-            "target": "path_target_here"
+            "source": "source",
+            "target": "html/wp-content/themes/custom/assets"
         }
     },
     "dependencies": {
-
+        "rimraf": "^2.6"
     },
     "description": "Theme builder",
     "homepage": "https://github.com/estebanspina/vm",
@@ -25,7 +25,11 @@
         "url": "https://github.com/estebanspina/vm.git"
     },
     "scripts": {
-
+        "clean:all": "npm run clean:css && npm run clean:fonts && npm run clean:images && npm run clean:js",
+        "clean:css": "rimraf $npm_package_config_path_target/css/*",
+        "clean:fonts": "rimraf $npm_package_config_path_target/fonts/*",
+        "clean:images": "rimraf $npm_package_config_path_target/images/*",
+        "clean:js": "rimraf $npm_package_config_path_target/js/*"
     },
     "version": "1.0.0"
 }
