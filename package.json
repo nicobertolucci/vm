@@ -1,3 +1,31 @@
 {
-    "path_source_here": "path_target_here"
+    "author": {
+        "email": "esteban.spin@gmail.com",
+        "name": "Esteban Spina"
+    },
+    "bugs": {
+        "url": "https://github.com/estebanspina/vm/issues"
+    },
+    "config": {
+        "path": {
+            "source": "path_source_here",
+            "target": "path_target_here"
+        }
+    },
+    "dependencies": {
+
+    },
+    "description": "Theme builder",
+    "homepage": "https://github.com/estebanspina/vm",
+    "keywords": [],
+    "license": "MIT",
+    "name": "builder",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/estebanspina/vm.git"
+    },
+    "scripts": {
+
+    },
+    "version": "1.0.0"
 }
