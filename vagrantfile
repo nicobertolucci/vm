@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+DB_NAME = "development"
+DB_PASSWORD = "pass"
+NETWORK_IP = "192.168.80.80"
+NETWORK_PORT = "8080"
+NETWORK_PORT_HTTPS = "4430"
+VBOX_NAME = "Development"
+
+require "getoptlong"
+
+custom = ""
+opts = GetoptLong.new(['--custom', GetoptLong::OPTIONAL_ARGUMENT])
+
+opts.each do |opt, arg|
+    case opt
+        when '--custom'
+            custom = arg
+    end
+end
+
+Vagrant.configure("2") do |config|
+    config.ssh.insert_key = false
+
+    config.vm.box = "ubuntu/xenial64"
+    config.vm.network "forwarded_port", guest: 80, host: NETWORK_PORT, host_ip: "127.0.0.1"
+    config.vm.network "forwarded_port", guest: 443, host: NETWORK_PORT_HTTPS, host_ip: "127.0.0.1"
+    config.vm.network "private_network", ip: NETWORK_IP
+
+    config.vm.synced_folder "./", "/var/www", owner: "www-data", group: "www-data", mount_options: ["dmode=777,fmode=777"]
+
+    config.vm.provider "virtualbox" do |vbox|
+        vbox.cpus = 1
+        vbox.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+        vbox.memory = 1024
+        vbox.name = VBOX_NAME
+    end
+
+    config.vm.provision "shell", path: "./provision/vm.sh", :args => [DB_NAME, DB_PASSWORD]
+
+    if "wordpress" === custom
+        BUILD_SOURCE = "source/"
+        BUILD_TARGET = "html/wp-content/themes/custom/assets/"
+
+        config.vm.provision "shell", path: "./provision/wordpress.sh", :args => [DB_NAME, DB_PASSWORD, BUILD_SOURCE, BUILD_TARGET]
+    end
+end
