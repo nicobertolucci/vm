@@ -71,3 +71,15 @@ sudo cat << EOF > /var/www/html/wp-content/themes/custom/style.css
  * Version: 1.0
  */
 EOF
+
+sudo mkdir /var/www/source
+sudo mkdir /var/www/source/css
+sudo mkdir /var/www/source/fonts
+sudo mkdir /var/www/source/images
+sudo mkdir /var/www/source/js
+
+sudo cat << EOF > /var/www/source/css/theme.scss
+EOF
+
+sudo cat << EOF > /var/www/source/js/theme.js
+EOF

@@ -40,8 +40,8 @@ Vagrant.configure("2") do |config|
     config.vm.provision "shell", path: "./provision/vm.sh", :args => [DB_NAME, DB_PASSWORD]
 
     if "wordpress" === custom
-        BUILD_SOURCE = "source/"
-        BUILD_TARGET = "html/wp-content/themes/custom/assets/"
+        BUILD_SOURCE = "source"
+        BUILD_TARGET = "html/wp-content/themes/custom/assets"
 
         config.vm.provision "shell", path: "./provision/wordpress.sh", :args => [DB_NAME, DB_PASSWORD, BUILD_SOURCE, BUILD_TARGET]
     end
