@@ -11,11 +11,11 @@ VBOX_NAME = "Development"
 require "getoptlong"
 
 custom = ""
-opts = GetoptLong.new(['--custom', GetoptLong::OPTIONAL_ARGUMENT])
+opts = GetoptLong.new(['--cms', GetoptLong::OPTIONAL_ARGUMENT])
 
 opts.each do |opt, arg|
     case opt
-        when '--custom'
+        when '--cms'
             custom = arg
     end
 end

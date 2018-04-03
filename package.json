@@ -15,7 +15,7 @@
     "dependencies": {
         "copyfiles": "^2.0",
         "node-sass": "^4.8",
-        "postcss-cli": "^5.0",
+        "postcss": "^6.0",
         "rimraf": "^2.6"
     },
     "description": "Theme builder",
