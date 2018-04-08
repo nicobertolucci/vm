@@ -27,8 +27,10 @@ sudo sed -i "s|'wp_'|'cms_'|" /var/www/html/wp-config.php
 sudo sed -i "s|path_source_here|source\\/|" /var/www/package.json
 sudo sed -i "s|path_target_here|html\\/wp-content\\/themes\\/custom\\/assets\\/|" /var/www/package.json
 
+PLACEHOLDER = 'put your unique phrase here'
 SALT = $(curl -L https://api.wordpress.org/secret-key/1.1/salt/)
-printf '%s\n' "g/put your unique phrase here/d" a "$SALT" . w | ed -s /var/www/html/wp-config.php
+
+printf '%s\n' "g/$PLACEHOLDER/d" a "$SALT" . w | ed -s /var/www/html/wp-config.php
 
 sudo mkdir /var/www/html/wp-content/themes/custom
 sudo mkdir /var/www/html/wp-content/themes/custom/assets
