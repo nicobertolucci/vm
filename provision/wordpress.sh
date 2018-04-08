@@ -20,14 +20,17 @@ sudo rm /var/www/html/readme.html
 
 sudo mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-SALT = dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev
-
 sudo sed -i "s|database_name_here|$1|" /var/www/html/wp-config.php
 sudo sed -i "s|username_here|root|" /var/www/html/wp-config.php
 sudo sed -i "s|password_here|$2|" /var/www/html/wp-config.php
-sudo sed -i "s|put your unique phrase here|$SALT|" /var/www/html/wp-config.php
+sudo sed -i "s|'wp_'|'cms_'|" /var/www/html/wp-config.php
 sudo sed -i "s|path_source_here|source\\/|" /var/www/package.json
 sudo sed -i "s|path_target_here|html\\/wp-content\\/themes\\/custom\\/assets\\/|" /var/www/package.json
+
+SALT=$(curl -L https://api.wordpress.org/secret-key/1.1/salt/)
+STRING='put your unique phrase here'
+
+printf '%s\n' "g/$STRING/d" a "$SALT" . w | ed -s /var/www/html/wp-config.php
 
 sudo mkdir /var/www/html/wp-content/themes/custom
 sudo mkdir /var/www/html/wp-content/themes/custom/assets
