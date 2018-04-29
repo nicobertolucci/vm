@@ -1,6 +1,6 @@
 # Ubuntu Virtual Machine #
 
-This is a very flexible virtual machine that allows you to create a simple Ubuntu Xenial64 server for LAMP stack developers which also includes many related modern development tools.
+This is a very flexible virtual machine that allows you to create a simple Ubuntu server (LTS) for LAMP stack developers which also includes many related modern development tools.
 
 Please read all the document before start using the project.
 
