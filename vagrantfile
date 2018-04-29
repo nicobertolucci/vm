@@ -3,9 +3,8 @@
 
 DB_NAME = "development"
 DB_PASSWORD = "pass"
-NETWORK_IP = "192.168.80.80"
-NETWORK_PORT = "8080"
-NETWORK_PORT_HTTPS = "4430"
+
+VBOX_MEMORY = "1024"
 VBOX_NAME = "Development"
 
 require "getoptlong"
@@ -23,27 +22,38 @@ end
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
 
-    config.vm.box = "ubuntu/xenial64"
-    config.vm.network "forwarded_port", guest: 80, host: NETWORK_PORT, host_ip: "127.0.0.1"
-    config.vm.network "forwarded_port", guest: 443, host: NETWORK_PORT_HTTPS, host_ip: "127.0.0.1"
-    config.vm.network "private_network", ip: NETWORK_IP
+    config.vm.box = "ubuntu/bionic64"
+    config.vm.network "forwarded_port", guest: 80, host: "8080", host_ip: "127.0.0.1"
+    config.vm.network "forwarded_port", guest: 443, host: "4430", host_ip: "127.0.0.1"
+    config.vm.network "private_network", ip: "192.168.80.80"
 
     config.vm.synced_folder "./", "/var/www", owner: "www-data", group: "www-data", mount_options: ["dmode=777,fmode=777"]
 
     config.vm.provider "virtualbox" do |vbox|
         vbox.cpus = 1
         vbox.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
-        vbox.memory = 1024
+        vbox.memory = VBOX_MEMORY.to_i
         vbox.name = VBOX_NAME
     end
 
-    config.vm.provision "shell", path: "./provision/vm.sh", :args => [DB_NAME, DB_PASSWORD]
+    VBOX_SWAP = swap(megabytes(VBOX_MEMORY))
+
+    config.vm.provision "shell", path: "./provision/vm.sh", :args => [VBOX_SWAP, DB_NAME, DB_PASSWORD]
+    config.vm.provision "shell", path: "./provision/application.sh", :args => [], run: "always"
 
     if "drupal" === custom
-        config.vm.provision "shell", path: "./provision/drupal.sh", :args => [DB_NAME, DB_PASSWORD]
+        config.vm.provision "shell", path: "./provision/drupal.sh", :args => [VBOX_SWAP, DB_NAME, DB_PASSWORD]
     end
 
     if "wordpress" === custom
-        config.vm.provision "shell", path: "./provision/wordpress.sh", :args => [DB_NAME, DB_PASSWORD]
+        config.vm.provision "shell", path: "./provision/wordpress.sh", :args => [VBOX_SWAP, DB_NAME, DB_PASSWORD]
     end
+end
+
+def megabytes(bytes)
+    (bytes.to_f / 1024 / 1024 * 100).round(0)
+end
+
+def swap(megabytes)
+    megabytes.to_i * 2
 end
