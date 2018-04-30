@@ -2,8 +2,6 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-SALT = $(curl -L https://api.wordpress.org/secret-key/1.1/salt/)
-
 sudo wget http://wordpress.org/latest.tar.gz -P /tmp
 sudo tar -zxvf /tmp/latest.tar.gz -C /tmp
 
@@ -27,7 +25,14 @@ sudo sed -i "s|username_here|root|" /var/www/html/wp-config.php
 sudo sed -i "s|password_here|$2|" /var/www/html/wp-config.php
 sudo sed -i "s|'wp_'|'cms_'|" /var/www/html/wp-config.php
 
-sudo printf '%s\n' "g/put your unique phrase here/d" a "$SALT" . w | ed -s /var/www/html/wp-config.php
+perl -i -pe'
+    BEGIN {
+        @chars = ("a" .. "z", "A" .. "Z", 0 .. 9);
+        push @chars, split //, "!@#$%^&*()-_ []{}<>~\`+=,.;:/?|";
+        sub salt { join "", map $chars[ rand @chars ], 1 .. 64 }
+    }
+    s/put your unique phrase here/salt()/ge
+' /var/www/html/wp-config.php
 
 sudo sed -i "s|path_source_here|source\\/|" /var/www/package.json
 sudo sed -i "s|path_target_here|html\\/wp-content\\/themes\\/custom\\/assets\\/|" /var/www/package.json

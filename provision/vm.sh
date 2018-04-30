@@ -1,18 +1,20 @@
 #!/bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 
-if [ ! -d /var/cache/swap ]; then
-    sudo mkdir -v /var/cache/swap
-    cd /var/cache/swap
-    sudo dd if=/dev/zero of=swapfile bs=1K count=$1M
-    sudo chmod 600 swapfile
-    sudo mkswap swapfile
-    sudo swapon swapfile
-    echo "/var/cache/swap/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab
-    sudo swapoff swapfile
-    sudo swapon -va
+grep -q "swapfile" /etc/fstab
+
+if [ $? -ne 0 ]; then
+	sudo fallocate -l $1M /swapfile
+	sudo chmod 600 /swapfile
+	sudo mkswap /swapfile
+	sudo swapon /swapfile
 fi
+
+sudo cat /proc/swaps
+sudo cat /proc/meminfo | grep Swap
 
 sudo apt-get update
 sudo apt-get upgrade -y
