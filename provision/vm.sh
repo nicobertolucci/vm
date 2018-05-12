@@ -35,7 +35,7 @@ fi
 
 sudo apt-get install -y apache2
 
-echo "ServerName localhost" >> /etc/apache2/apache2.
+echo "ServerName localhost" >> /etc/apache2/apache2
 
 sudo a2enmod rewrite
 sudo a2dissite 000-default.conf
