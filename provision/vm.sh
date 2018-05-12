@@ -95,4 +95,17 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 sudo apt-get install -y nodejs
 
+sudo mkdir /var/www/source
+sudo mkdir /var/www/source/components
+sudo mkdir /var/www/source/css
+sudo mkdir /var/www/source/fonts
+sudo mkdir /var/www/source/images
+sudo mkdir /var/www/source/js
+
+sudo cat << EOF > /var/www/source/css/theme.scss
+EOF
+
+sudo cat << EOF > /var/www/source/js/theme.js
+EOF
+
 sudo apt-get autoremove -y --purge
